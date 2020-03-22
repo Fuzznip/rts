@@ -46,11 +46,8 @@ public class MapGen : MonoBehaviour
     {
       for (int j = 0; j < mapSize; ++j)
       {
-        float x = (float)i;
-        float y = (float)j;
-
-        float iPerlin = (x / mapSize * scale) + xOffset;
-        float jPerlin = (y / mapSize * scale) + yOffset;
+        float iPerlin = ((float)i / mapSize * scale) + xOffset;
+        float jPerlin = ((float)j / mapSize * scale) + yOffset;
         float noiseValue = Mathf.PerlinNoise(iPerlin, jPerlin);
 
         array[i][j] = noiseValue;
@@ -64,12 +61,9 @@ public class MapGen : MonoBehaviour
     {
       for (int j = 0; j < mapSize; ++j)
       {
-        float x = (float)i;
-        float z = (float)j;
-
         //Offset values depends on the size of the gameobject tile
-        float xOffset = (x * 10f);
-        float zOffset = (z * 10f);
+        float xOffset = i * 10f;
+        float zOffset = j * 10f;
 
         Vector3 position = new Vector3(xOffset, 0, zOffset);
         //Creates multiple gameobjects. Set mapSize to small initial values for performance. Probably can do this a better way but this is for testing.
