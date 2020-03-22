@@ -1,16 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MapGen : MonoBehaviour
 {
-  public int mapSize;
-  public float[][] mapArray;
+  [Header("Initialization Settings")]
+  [SerializeField]
+  GameObject floor = null;
 
-  public GameObject floor;
+  [Header("Runtime Map Settings")]
+  [SerializeField]
+  int mapSize = 50;
+  float[][] mapArray;
+
   GameObject[][] floorTiles;
 
-  public float scale, xOffset, yOffset;
+  [SerializeField]
+  float scale = 5f, xOffset = 0f, yOffset = 0f;
   float lastScale, xLastOffset, yLastOffset;
 
   void Start()
@@ -29,14 +33,14 @@ public class MapGen : MonoBehaviour
     }
 
     //I'm thinking of layering multiple noise maps on top of each other. Right now I got these two layers generated. 
-    mapArray = generateNoiseMap(mapArray, scale);
+    generateNoiseMap(mapArray, scale);
     //resourceArray = generateNoiseMap(resourceArray, scale); //Unused for now.
 
     createTileMap();
     displayMap();
   }
 
-  float[][] generateNoiseMap(float[][] array, float scale)
+  void generateNoiseMap(float[][] array, float scale)
   {
     for (int i = 0; i < mapSize; ++i)
     {
@@ -52,7 +56,6 @@ public class MapGen : MonoBehaviour
         array[i][j] = noiseValue;
       }
     }
-    return array;
   }
 
   void createTileMap()
@@ -99,7 +102,7 @@ public class MapGen : MonoBehaviour
   {
     if (xLastOffset != xOffset || yLastOffset != yOffset || lastScale != scale)
     {
-      mapArray = generateNoiseMap(mapArray, scale);
+      generateNoiseMap(mapArray, scale);
       displayMap();
       xLastOffset = xOffset;
       yLastOffset = yOffset;
